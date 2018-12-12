@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -39,6 +40,14 @@ public class Parcela implements Serializable {
     public Parcela(){
         
     }
+    
+    @Transient
+    public Boolean getVencida(){
+        if (this.dataPagamento != null && this.valorPago != null){
+            return false;
+        }
+        return this.vencimento.before(Calendar.getInstance());          
+    }        
 
     public ParcelaID getParcelaID() {
         return parcelaID;
@@ -104,4 +113,6 @@ public class Parcela implements Serializable {
         }
         return true;
     }
+    
+
 }
